@@ -19,38 +19,42 @@ client.connect(err => {
   /* GET home page. */
   router.get('/', function(req, res, next) {
     console.log(req.query)
-    res.render('index', { title: 'mongodb' });
+    res.render('index', { title: 'mongodb Tool' });
   });
 
-	router.get('/delete', (req, res) => {
+  router.get('/user_search', (req, res, next) => {
+    res.render('user_search' )
+  })
+
+	router.get('/api/deletemany', (req, res) => {
 		console.log(req.query)
 		deleteManyDocuments(db, (result) => {
 			console.log(result.result)
 		})
 		res.send('delete done')
 	})
-	router.get('/insertMany', (req, res) => {
+	router.get('/api/insertmany', (req, res) => {
 		console.log(req.query)
 		insertManyDocuments(db, (result) => {
 			console.log(result.result)
 		})
 		res.send('insert done')
 	})
-	router.get('/find', (req, res) => {
-		console.log(req.query)
+	router.get('/api/find', (req, res) => {
 		findDocuments(db, (docs) => {
-			console.log(docs)
-		})
-		res.send('find done')
+      console.log(docs)
+      res.render('user_list', { userList: docs})
+    })
+    
 	})
-	router.get('/find2', (req, res) => {
+	router.get('/api/search', (req, res) => {
 		const findsData = req.query
 		console.log(req.query)
 		findDocuments_2({ db, findsData },  (docs) => {
-
 			console.log(docs)
+      res.render('user_list', { userList: docs})
 		})
-		res.send('find2 done')
+		// res.send('api/find done')
   })
 })
 

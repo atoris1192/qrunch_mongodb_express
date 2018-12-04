@@ -1,0 +1,18 @@
+
+extends layout
+
+block content
+  h1 UserSearchPage
+
+  .container
+    .input-area
+      select.select#userSearchSelect
+        option(value="name") Name
+        option(value="age") Age
+        option(value="weight") Weight
+        option(value="height") Height
+
+      input.user_search_input#userSearchInput(type="text")
+      #userSearchBtn.searchBtn リンク作成
+      #userSearchResult.result ?
+      p: a(href="http://localhost:3000/api/search?name=momo") momo

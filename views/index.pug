@@ -1,5 +1,9 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .container
+    h1= title
+    .homelist
+      p: a(href="http://localhost:3000/api/deleteMany") deleteMany
+      p: a(href="http://localhost:3000/api/insertmany") insertMany
+      p: a(href="http://localhost:3000/api/find") List
