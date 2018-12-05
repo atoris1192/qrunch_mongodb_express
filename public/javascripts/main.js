@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const userSearchInput = document.getElementById('userSearchInput')
   const userSearchSelect = document.getElementById('userSearchSelect')
+  const userSearchBtn = document.getElementById('userSearchBtn')
+  const userSearchResult = document.getElementById('userSearchResult')
 
   userSearchBtn.addEventListener('click', () => {
 
