@@ -1,8 +1,11 @@
 const assert = require('assert')
+const { state } = require('../config.js')
+const colName = 'documents'
 
+if ( state.debug ) console.info('-- libCallback log --')
 
 module.exports.updateOneDocument = (db, callback) => {
-	const collection = db.collection('documents')
+	const collection = db.collection(colName)
 	collection.updateOne(
 		{ a: 1 },
 		{ $set: { a: 100 }}, (err, result) => {
@@ -13,7 +16,7 @@ module.exports.updateOneDocument = (db, callback) => {
 }
 
 module.exports.deleteManyDocuments = (db, callback) => {
-	const collection = db.collection('documents')
+	const collection = db.collection(colName)
 	collection.deleteMany({}, (err, result) => {
 		assert.equal(err, null)
 		console.log("Delete All")
@@ -22,10 +25,11 @@ module.exports.deleteManyDocuments = (db, callback) => {
 }
 
 module.exports.findDocuments = (db, callback) => {
-	const collection = db.collection('documents')
+	const collection = db.collection(colName)
 	collection
 		.find({})
 		.project({ '_id': 0})
+		.limit(100)
 		.toArray((err, docs) => {
 			assert.equal(err, null)
 			console.log("Founds the records")
@@ -34,7 +38,7 @@ module.exports.findDocuments = (db, callback) => {
 }
 
 module.exports.findDocuments_2 = ({ db, findsData }, callback) => {
-	const collection = db.collection('documents')
+	const collection = db.collection(colName)
 	const value = Object.entries(findsData)[0][1]
 	const key   = Object.entries(findsData)[0][0]
 	const fixFindsData = {}
@@ -44,6 +48,7 @@ module.exports.findDocuments_2 = ({ db, findsData }, callback) => {
 	collection
 		.find(input)
 		.project({ '_id': 0})
+		.limit(100)
 		.toArray((err, docs) => {
 			assert.equal(err, null)
 			console.log("Founds the records")
@@ -51,8 +56,45 @@ module.exports.findDocuments_2 = ({ db, findsData }, callback) => {
 		})
 }
 
+module.exports.insertOneDocumentGet= ({ db, insertOneData }, callback) => {
+	const collection = db.collection(colName)
+
+	// insertOneLog { name: 'toto', age: '23' }
+
+  console.log('insertOneData', insertOneData)
+	const ent = Object.entries(insertOneData)
+	console.log(ent)
+
+	collection.insertOne({name: 'nokoko'}, (err, result) => {
+		assert.equal(err, null)
+		assert.equal(1, result.result.n)
+		assert.equal(1, result.ops.length)
+		console.log("Inserted  document")
+		callback(result)
+	})
+}
+
+module.exports.insertOneDocumentPost= ({ db, insertOneData }, callback) => {
+	const collection = db.collection(colName)
+	const ent = Object.entries(insertOneData)
+
+
+
+	if (state.debug) {
+		console.log('insertOneDocumentPost insertOneData : ', insertOneData)
+		console.log('insertOneDocumentPost entries', ent)
+	}
+
+	collection.insertOne( insertOneData , (err, result) => {
+		assert.equal(err, null)
+		assert.equal(1, result.result.n)
+		assert.equal(1, result.ops.length)
+		callback(result)
+	})
+}
+
 module.exports.insertManyDocuments = (db, callback) => {
-	const collection = db.collection('documents')
+	const collection = db.collection(colName)
 	collection.insertMany([
 		{ name: 'toto', age: 25, weight: 65, height: 176 },
 		{ name: 'momo', age: 27, weight: 50, height: 163 },

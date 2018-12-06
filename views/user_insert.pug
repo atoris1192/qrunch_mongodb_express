@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 UserInsertPage
+
+  .container
+    .insert-area
+      label Name :
+        input.user_insert_input#userInsertName(type="text")
+      label Age :
+        input.user_insert_input#userInsertAge(type="number")
+      label Height :
+        input.user_insert_input#userInsertHeight(type="number")
+      label Weight :
+        input.user_insert_input#userInsertWeight(type="number")
+    #btn.btn.insertbtn Insert
+    #resetBtn.btn.insertbtn Reset
+    #userInsertResult.result 
+  script(src="./javascripts/userInsert.js")
