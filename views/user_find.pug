@@ -1,5 +1,15 @@
 extends layout
 
 block content
-  h1 UserFindPage
-  p Welcome to #{title}
+  .container
+    h1 user list find
+    ol.ol
+      li.label.li #[span.list Index] #[span.list Name] #[span.list Age] #[span.list Height] #[span.list Weight] 
+
+      for item, index in userList
+        li.li.
+          #[span.list #{ index }]
+          #[span.list #{ item.name }] 
+          #[span.list #{ item.age }] 
+          #[span.list #{ item.height }] 
+          #[span.list #{ item.age }] 

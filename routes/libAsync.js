@@ -1,8 +1,32 @@
 const assert = require('assert')
 const { state } = require('../config.js')
 const colName = 'documents'
+const ObjectId = require('mongodb').ObjectID
 
 if ( state.debug ) console.info('-- libAsync log --')
+
+module.exports.deleteOneDocument= async({ db, removeData }) => {
+  const collection = db.collection(colName)
+  const removeDataArray = Object.entries(removeData)
+    // return await collection.deleteOne({
+    //   "_id": ObjectId("5c0b6bb6af49a693d2cfdd39")
+    // })
+
+  let r = null
+  for(let item of removeDataArray) {
+    console.log('deleteOneDocument id: ', item[1])
+
+    const obj = {
+      "_id": ObjectId(item[1])
+      // "_id": ObjectId("5c0b67bcb86361681b3160a0")
+    }
+
+       r = await collection.deleteOne(obj)
+
+  }
+  // return r
+  
+}
 
 
 module.exports.deleteManyDocuments = async(db) => {
@@ -26,7 +50,7 @@ module.exports.findDocuments = async(db) => {
   const collection = db.collection(colName)
   return await collection
     .find({})
-    .project({ '_id': 0})
+    // .project({ '_id': 0})
     .limit(100)
     .toArray() 
 }
@@ -51,9 +75,9 @@ module.exports.insertOneDocumentPost= async({ db, insertOneData }) => {
 	const collection = db.collection(colName)
 	const arrayInsertOneData = Object.entries(insertOneData)
   const fixInsertOneData = {}
-  for(let item of arrayInsertOneData) {
-    key = item[0]
-    value = item[1]
+  for(let [ key, value ] of arrayInsertOneData) {
+    // key = item[0]
+    // value = item[1]
     fixInsertOneData[key] = (value - 0)
   }
   delete fixInsertOneData.name

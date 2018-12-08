@@ -14,6 +14,7 @@ const {
   findDocuments,
   searchDocuments,
   deleteManyDocuments,
+  deleteOneDocument,
 } = require('./libAsync.js')
 // } = require('./libCallback.js')
 
@@ -47,6 +48,15 @@ client.connect(err => {
     res.render('index', { title: 'mongodb Tool' });
   });
 
+	router.get('/user_list', (req, res) => {
+    findDocuments(db)
+      .then(docs => {
+        if(state.debug) console.log('api/find: result ', docs)
+        res.render('user_list', { userList: docs })
+      })
+      .catch(e => console.error(e.message))
+  })
+
   router.get('/user_insert', (req, res, next) => {
     res.render('user_insert' )
   })
@@ -55,7 +65,21 @@ client.connect(err => {
     res.render('user_search' )
   })
 
+
   // api
+  router.delete('/api/removeuser', (req, res) => {
+    const removeData = req.body
+    if(state.debug) {
+      console.log('api/removeuser: ', req.body)
+    }
+    deleteOneDocument({db, removeData })
+      .then(result => {
+        // if (state.debug) console.log(result.result)
+      })
+      .catch(e => console.error(e.message))
+  })
+
+
 	router.get('/api/deletemany', (req, res) => {
     console.log(req.query)
     deleteManyDocuments(db)
@@ -93,11 +117,11 @@ client.connect(err => {
     findDocuments(db)
       .then(docs => {
         if(state.debug) console.log('api/find: result ', docs)
-        res.render('user_list', { userList: docs })
+        res.render('user_find', { userList: docs })
       })
       .catch(e => console.error(e.message))
-    
   })
+  
 
 	router.get('/api/search', (req, res) => {
 		const findsData = req.query

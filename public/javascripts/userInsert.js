@@ -56,20 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     main()
         userInsertResult.textContent = 'Done!'
 
-
-    
-    // fetch('http://localhost:3000/api/insertonepost', options)
-    //   .then(response => {
-    //     if (!response.ok) {
-    //       throw Error(response.statusText)
-    //     }	
-    //     return response
-    //   })
-    //   .then(response => {
-    //     console.log(response)
-    //   })
-    //   .catch(err => console.error(err))
-    
   })
 
 })

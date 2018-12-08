@@ -65,9 +65,11 @@ body {
       opacity: 0.8; }
     .ol .li .list {
       display: inline-block;
-      width: 100px;
+      width: 85px;
       height: 30px;
       line-height: 30px; }
+    .ol .li #mid {
+      font-size: 8px; }
 
 .input-area {
   box-sizing: border-box;
