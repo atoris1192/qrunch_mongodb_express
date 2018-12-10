@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .container
+    h1 user Edit page
+    ol.ol
+      for item in userData
+        li.li.
+          #[span.list #{ item[0] }]
+          #[input(type="text" value=item[1])]
+    #btn.btn Update
+    #result.result 
+  script(src="./javascripts/userEdit.js")
+      
+
+
+//- http://localhost:3000/user_edit?_id=5c0b9fd4101376cd30804fea

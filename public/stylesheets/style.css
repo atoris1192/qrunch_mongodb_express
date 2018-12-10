@@ -36,7 +36,8 @@ body {
   padding: 10px;
   background-color: #3894fd;
   color: #ffffff;
-  text-align: center; }
+  text-align: center;
+  margin: 0 30px; }
   .btn:hover {
     opacity: .8; }
 

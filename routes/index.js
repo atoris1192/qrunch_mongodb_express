@@ -15,6 +15,8 @@ const {
   searchDocuments,
   deleteManyDocuments,
   deleteOneDocument,
+  findOneDocument,
+  updateOneDocument,
 } = require('./libAsync.js')
 // } = require('./libCallback.js')
 
@@ -48,6 +50,28 @@ client.connect(err => {
     res.render('index', { title: 'mongodb Tool' });
   });
 
+  router.get('/user_edit', (req,res) => {
+    let mid = req.params.mid || "none"
+    let mongoId = req.query || "none"
+    let _id = mongoId._id || "none"
+
+    if (state.debug) {
+      console.log('mongoId: ', req.query)
+      console.log('mid: ', req.params.mid)
+      console.log('_id: ', mongoId._id)
+    }
+    findOneDocument({db, _id})
+      .then(doc => {
+        const arrayDoc = Object.entries(doc)
+        if(state.debug){
+          console.log('user_edit doc', doc)
+          console.log('user_edit arrayDoc', arrayDoc)
+        } 
+        res.render('user_edit', { userData : arrayDoc})
+      })
+      .catch(e => console.error(e.message))
+  })
+
 	router.get('/user_list', (req, res) => {
     findDocuments(db)
       .then(docs => {
@@ -67,6 +91,18 @@ client.connect(err => {
 
 
   // api
+  router.post('/api/updateone', (req, res) => {
+    const data = req.body
+    if(state.debug) {
+      console.log('api/updateone data: ', data);
+    }
+    updateOneDocument({ db, data })
+      .then(result => {
+        console.log('api/updateone', result.result)
+      })
+      .catch(e => console.error(e.message))
+  })
+
   router.delete('/api/removeuser', (req, res) => {
     const removeData = req.body
     if(state.debug) {
@@ -77,8 +113,8 @@ client.connect(err => {
         // if (state.debug) console.log(result.result)
       })
       .catch(e => console.error(e.message))
+    res.send('delete done')
   })
-
 
 	router.get('/api/deletemany', (req, res) => {
     console.log(req.query)
@@ -132,6 +168,25 @@ client.connect(err => {
         res.render('user_list', { userList: docs})
       })
       .catch(e => console.error(e.message))
+  })
+
+  router.get('/users/:mid', (req,res) => {
+    let mid = req.params.mid
+    let mongoId = req.query
+    let _id = mongoId._id
+
+    if (state.debug) {
+      console.log('mongoId: ', req.query)
+      console.log('mid: ', req.params.mid)
+      console.log('_id: ', mongoId._id)
+    }
+    findOneDocument({db, _id})
+      .then(doc => {
+        if(state.debug) console.log('user_edit doc', doc)
+        res.render('user_edit', { userData : doc })
+      })
+      .catch(e => console.error(e.message))
+    res.send(mongoId)
   })
 
 })
