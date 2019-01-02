@@ -1,0 +1,9 @@
+---
+title: MongoDB callback async記事
+tags: mongodb express
+author: atris1192
+...
+
+`MongoDB`を`Node.js`で使う、ドライバーはオフィシャルドライバー
+その後、Expressをスイッチとして使う
+Qrunch記事用
